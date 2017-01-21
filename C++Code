@@ -1,0 +1,226 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+class DR
+{
+public:
+	DR::DR();
+	void DR::start();
+	void DR::menu();
+	void DR::all();
+	void DR::doctor();
+	void DR::type();
+	void DR::fee();
+	void DR::most();
+
+private:
+	struct clinc
+	{
+		int id;
+		string name;
+		string dr;
+		string type;
+		double cost;
+	}info[50];
+	int count;
+	int selection;
+};
+
+
+
+int main()
+{
+	DR file;
+	file.start();
+	system("pause");
+	return 0;
+}
+
+DR::DR()
+{
+	count = -1;
+	int i;
+	ifstream infile;
+	ofstream outfile;
+	infile.open("data.txt");
+
+	while (!infile.eof() && !infile.fail())
+	{
+		count = count + 1;
+		
+		infile >> info[count].id >> info[count].name >> info[count].dr
+			>> info[count].type >> info[count].cost;
+	}
+
+	infile.close();
+}
+
+void DR::start()
+{
+	menu();
+
+}
+
+void DR::menu()
+{
+	 selection;
+	cout << endl;
+	cout << " MJ Medical Center Report Section" << endl << endl;
+	cout << " 1. All Information " << endl;
+	cout << " 2. All Surgeries for a Specific Doctor " << endl;
+	cout << " 3. All Surgeries of a Specific Type " << endl;
+	cout << " 4. Total Amount of Surgery Fees Paid to Each Doctor " << endl;
+	cout << " 5. Most Doctor Perform Surgies " << endl;
+	cout << " 6. Exit The Report " << endl;
+	cout << " Pleses Make a Selection" << endl << endl;
+	cin >> selection;
+
+	while (selection != 6)
+	{
+		if (selection == 1)
+		{
+			all();
+		}
+		else
+			if (selection == 2)
+			{
+				doctor();
+			}
+			else
+				if (selection == 3)
+				{
+					type();
+				}
+				else
+					if (selection == 4)
+					{
+						fee();
+					}
+					else
+						if (selection == 5)
+						{
+							most();
+						}
+		cout << endl;
+		cout << " MJ Medical Center Report Section" << endl << endl;
+		cout << " 1. All Information " << endl;
+		cout << " 2. All Surgeries for a Specific Doctor " << endl;
+		cout << " 3. All Surgeries of a Specific Type " << endl;
+		cout << " 4. Total Amount of Surgery Fees Paid to Each Doctor " << endl;
+		cout << " 5. Most Doctor Perform Surgies " << endl;
+		cout << " 6. Exit The Report " << endl;
+		cout << " Pleses Make a Selection" << endl << endl;
+		cin >> selection;
+	}
+
+}
+
+void DR::type()
+{
+	string searchtype;
+	cout << " Enter A Surgery Type To Search"<<endl;
+	cin >> searchtype;
+	for (int i = 0; i <= count;++i)
+	{
+		if (searchtype == info[i].type)
+		{
+			cout << " " << info[i].id << " " << info[i].name << " " << info[i].dr << " " << info[i].type
+				<< " " << info[i].cost << endl;
+		}
+	
+	}
+	
+}
+
+void DR::doctor()
+{
+	string searchdr;
+	cout << " Enter A Doctor To Search " << endl;
+	cin >> searchdr;
+	for (int i = 0; i <= count;++i)
+	{
+		if (searchdr == info[i].dr)
+		{
+			cout << " " << info[i].id << " " << info[i].name << " " << info[i].dr << " " << info[i].type
+				<< " " << info[i].cost << endl;
+		}
+
+	}
+
+}
+
+void DR::fee()
+{
+	double johnsfee = 0, majorfee = 0, fritzfee = 0;
+	for (int i = 0; i <= count;++i)
+	{
+		if (info[i].dr == "Fritz")
+		{
+			fritzfee = fritzfee + info[i].cost;
+		}
+		else
+			if (info[i].dr == "Major")
+			{
+				majorfee = majorfee + info[i].cost;
+			}
+			else
+			{
+				johnsfee = johnsfee + info[i].cost;
+			}
+	}
+	cout << "Total fees paid to Dr.Fritz = " << fritzfee << endl;
+	cout << "Total fees paid to Dr.Major = " << majorfee << endl;
+	cout << "Total fees paid to Dr.Johns = " << johnsfee << endl;
+}
+
+void DR::most()
+{	
+	int mostdr = 0, fcount = 0, jcount = 0, mcount = 0;
+	string drmost;
+	for (int i=0;i <= count;++i)
+	{
+		if (info[i].dr == "Fritz")
+		{
+			fcount = fcount + 1;
+		}
+		else
+			if (info[i].dr == "Major")
+			{
+				mcount = mcount +1;
+			}
+			else
+			{
+				jcount = jcount + 1;
+			}
+	}
+	if (fcount > mcount && fcount > jcount)
+	{
+		mostdr = fcount;
+		drmost = "Fritz";
+	}
+	else
+		if (mcount > fcount && mcount > jcount)
+		{
+			mostdr = mcount;
+			drmost = "Major";
+		}
+		else
+		{
+			mostdr = jcount;
+			drmost = "Johns";
+		}
+	cout << "The Most Doctor Perform Sugery is: " << drmost << endl;
+}
+
+void DR::all()
+{
+	int i;
+	for (i = 0; i <= count; ++i)
+	{
+		cout <<" "<< info[i].id <<" "<< info[i].name<<" " << info[i].dr<<" " << info[i].type
+			<< " "<< info[i].cost << endl;
+	}
+}
+
+
