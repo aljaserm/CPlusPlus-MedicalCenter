@@ -1,2 +1,2 @@
 # CPlusPlus-MedicalCenter
-It is a Medical center data program
+It is a Medical center patient data program
